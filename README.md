@@ -31,4 +31,4 @@ resp, err := apple.VerifyAppleIdToken(
 ## Contact
 Van Hai Huynh - hvhai22@gmail.com
 
-Project Link: https://github.com/pikann/CrawlGoogleImage
+Project Link: https://github.com/pikann/go-verify-apple-id-token
