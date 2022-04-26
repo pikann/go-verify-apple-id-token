@@ -12,10 +12,18 @@ import (
 	"github.com/lestrrat-go/jwx/v2/jwt"
 )
 
-func GetApplePublicKey(kid string) (*jwk.Key, error) {
-	JwksAppleURI := "https://appleid.apple.com/auth/keys"
+type AppleVerifier struct {
+	JwksAppleURI string
+}
 
-	resp, err := http.Get(JwksAppleURI)
+func NewAppleVerifier() *AppleVerifier {
+	return &AppleVerifier{
+		JwksAppleURI: "https://appleid.apple.com/auth/keys",
+	}
+}
+
+func (v *AppleVerifier) GetApplePublicKey(kid string) (*jwk.Key, error) {
+	resp, err := http.Get(v.JwksAppleURI)
 
 	if err != nil {
 		return nil, err
@@ -42,7 +50,7 @@ func GetApplePublicKey(kid string) (*jwk.Key, error) {
 	return &publicKey, nil
 }
 
-func VerifyAppleIdToken(token string, clientId string) (*VerifyTokenResponse, error) {
+func (v *AppleVerifier) VerifyAppleIdToken(token string, clientId string) (*VerifyTokenResponse, error) {
 	headers, err := jws.Parse([]byte(token))
 
 	if err != nil {
@@ -51,7 +59,7 @@ func VerifyAppleIdToken(token string, clientId string) (*VerifyTokenResponse, er
 
 	kid := headers.Signatures()[0].ProtectedHeaders().KeyID()
 
-	publicKey, err := GetApplePublicKey(kid)
+	publicKey, err := v.GetApplePublicKey(kid)
 
 	if err != nil {
 		return nil, err

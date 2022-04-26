@@ -22,7 +22,8 @@ import "github.com/pikann/go-verify-apple-id-token/apple"
 
 ...
 
-resp, err := apple.VerifyAppleIdToken(
+verifier := apple.NewAppleVerifier()
+resp, err := verifier.VerifyAppleIdToken(
     "token_test",
     "client_id",
 )
