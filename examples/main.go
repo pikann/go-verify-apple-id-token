@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-	resp, err := apple.VerifyAppleIdToken(
+	verifier := apple.NewAppleVerifier()
+	resp, err := verifier.VerifyAppleIdToken(
         "token_test",
         "client_id",
     )
