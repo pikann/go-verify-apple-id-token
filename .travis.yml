@@ -1,0 +1,11 @@
+language: go
+go:
+  - 1.17
+before_install:
+  - sudo pip install codecov
+install:
+  - go build ./...
+script:
+  - go test ./...
+after_success:
+  - codecov
